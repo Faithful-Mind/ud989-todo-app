@@ -18,6 +18,7 @@ var app = app || {};
 		// The DOM events specific to an item.
 		events: {
 			'click .toggle': 'toggleCompleted',
+			'click .priority-btn': 'togglePriority',
 			'click .edit-btn': 'edit',
 			'dblclick label': 'edit',
 			'click .destroy': 'clear',
@@ -51,6 +52,7 @@ var app = app || {};
 
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
+			this.$el.toggleClass('priority', this.model.get('prioritized'));
 			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
@@ -70,6 +72,15 @@ var app = app || {};
 		toggleCompleted: function () {
 			this.model.toggle();
 		},
+
+		// Toggle the `"priority"` state of the model.
+		togglePriority: function () {
+			// console.debug('(before click) this.model.get(\'prioritized\') : ' + this.model.get('prioritized'));
+			this.model.togglePrioritized();
+/* 			// DON'T DO THIS LIKE ME! DO IT in THE render FUNCTION!
+			// this method ONLY shows the item correctly AFTER you clicked toggle-priority button!
+			this.model.get('prioritized') ? this.$el.addClass('priority') : this.$el.removeClass('priority');
+ */		},
 
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {
